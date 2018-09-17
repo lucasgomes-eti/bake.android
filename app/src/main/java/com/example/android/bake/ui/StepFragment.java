@@ -5,36 +5,25 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.bake.R;
 import com.example.android.bake.helper.AndroidExtensions;
 import com.example.android.bake.model.Step;
-import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -45,17 +34,12 @@ import com.google.android.exoplayer2.util.Util;
 public class StepFragment extends Fragment {
 
     private static final String ARG_STEP = "argStep";
+    private static final String PLAYER_POSITION = "playerPosition";
 
     private Step mStep;
 
     private SimpleExoPlayer player;
     PlayerView playerView;
-
-    public interface StepFragmentListener {
-        void onConfigurationChanged(Configuration newConfig);
-    }
-
-    StepFragmentListener listener;
 
     public StepFragment() {}
 
@@ -86,78 +70,8 @@ public class StepFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         playerView = view.findViewById(R.id.playerView);
-        ProgressBar progressBar = view.findViewById(R.id.progressBar);
-        TextView textLoading = view.findViewById(R.id.tv_loading);
         TextView textStepDetail = view.findViewById(R.id.tv_step_details);
         textStepDetail.setText(mStep.getDescription());
-
-        if (!mStep.getVideoURL().equals("")) {
-            new Handler().post(() -> {
-                BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-                TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-                DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-
-                player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
-
-                playerView.setPlayer(player);
-
-                if (getContext() != null) {
-                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), getContext().getPackageName()));
-                    MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(mStep.getVideoURL()));
-                    player.prepare(videoSource);
-
-                    player.addListener(new Player.EventListener() {
-                        @Override
-                        public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {}
-
-                        @Override
-                        public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {}
-
-                        @Override
-                        public void onLoadingChanged(boolean isLoading) {
-                            new Handler(Looper.getMainLooper()).post(() -> {
-                                if (isLoading) {
-                                    playerView.setVisibility(View.GONE);
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    textLoading.setVisibility(View.VISIBLE);
-                                } else {
-                                    playerView.setVisibility(View.VISIBLE);
-                                    progressBar.setVisibility(View.GONE);
-                                    textLoading.setVisibility(View.GONE);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {}
-
-                        @Override
-                        public void onRepeatModeChanged(int repeatMode) {}
-
-                        @Override
-                        public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
-                        }
-
-                        @Override
-                        public void onPlayerError(ExoPlaybackException error) {}
-
-                        @Override
-                        public void onPositionDiscontinuity(int reason) {}
-
-                        @Override
-                        public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {}
-
-                        @Override
-                        public void onSeekProcessed() {}
-                    });
-                }
-            });
-        } else {
-            progressBar.setVisibility(View.GONE);
-            textLoading.setVisibility(View.GONE);
-        }
-
-
     }
 
     @Override
@@ -176,7 +90,6 @@ public class StepFragment extends Fragment {
                 hideSystemUI();
             }
         }
-
     }
 
     private void hideSystemUI() {
@@ -191,6 +104,38 @@ public class StepFragment extends Fragment {
                                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                                 | View.SYSTEM_UI_FLAG_FULLSCREEN);
             }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(PLAYER_POSITION, player.getCurrentPosition());
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (!mStep.getVideoURL().equals("")) {
+            new Handler().post(() -> {
+                BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+                TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+                DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+
+                player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
+
+                playerView.setPlayer(player);
+
+                if (getContext() != null) {
+                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), getContext().getPackageName()));
+                    MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(mStep.getVideoURL()));
+                    player.prepare(videoSource);
+
+                    if (savedInstanceState != null) {
+                        player.seekTo(savedInstanceState.getLong(PLAYER_POSITION));
+                    }
+                }
+            });
         }
     }
 
