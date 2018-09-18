@@ -5,9 +5,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +38,11 @@ public class StepFragment extends Fragment {
     private static final String ARG_STEP = "argStep";
     private static final String PLAYER_POSITION = "playerPosition";
 
-    private Step mStep;
+    Step mStep;
 
-    private SimpleExoPlayer player;
+    SimpleExoPlayer player;
     PlayerView playerView;
+
 
     public StepFragment() {}
 
@@ -134,6 +137,8 @@ public class StepFragment extends Fragment {
                     if (savedInstanceState != null) {
                         player.seekTo(savedInstanceState.getLong(PLAYER_POSITION));
                     }
+
+                    new Handler(Looper.getMainLooper()).post(() -> playerView.setVisibility(View.VISIBLE));
                 }
             });
         }

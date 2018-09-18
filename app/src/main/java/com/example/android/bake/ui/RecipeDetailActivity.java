@@ -17,7 +17,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements ListItemC
 
     private Boolean twoPane = false;
 
-    private StepsAdapter stepsAdapter = new StepsAdapter(new ArrayList<>(), this);
+    private StepsAdapter stepsAdapter = new StepsAdapter(new ArrayList<>(), new ArrayList<>(), this);
     private RecyclerView.LayoutManager layoutManager;
 
     public static String STEP_KEY = "step";
@@ -40,6 +40,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements ListItemC
         itemStepList.setAdapter(stepsAdapter);
 
         stepsAdapter.mSteps.addAll(recipe.getSteps());
+        stepsAdapter.mIngredients.addAll(recipe.getIngredients());
         stepsAdapter.notifyDataSetChanged();
 
         if (itemStepDetailContainer != null) {
@@ -55,7 +56,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements ListItemC
                     .commit();
 
             stepsAdapter.mSteps.set(0, step);
-            stepsAdapter.notifyItemChanged(0);
+            stepsAdapter.notifyItemChanged(1);
         }
     }
 
@@ -75,13 +76,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements ListItemC
                 if (mStep.isSelected()) {
                     mStep.setSelected(false);
                     stepsAdapter.mSteps.set(i, mStep);
-                    stepsAdapter.notifyItemChanged(i);
+                    stepsAdapter.notifyItemChanged(i + 1);
                 }
             }
 
             step.setSelected(true);
             stepsAdapter.mSteps.set(itemIndex, step);
-            stepsAdapter.notifyItemChanged(itemIndex);
+            stepsAdapter.notifyItemChanged(itemIndex + 1);
         } else {
             Intent intent = new Intent(this, StepDetailActivity.class);
             intent.putExtra(STEP_KEY, step);
