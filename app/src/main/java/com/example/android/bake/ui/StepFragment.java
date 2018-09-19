@@ -116,34 +116,38 @@ public class StepFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong(PLAYER_POSITION, player.getCurrentPosition());
+        if (player != null) {
+            outState.putLong(PLAYER_POSITION, player.getCurrentPosition());
+        }
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (!mStep.getVideoURL().equals("")) {
-            new Handler().post(() -> {
-                BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-                TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-                DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+        if (getContext() != null) {
+            if (!mStep.getVideoURL().equals("")) {
+                new Handler().post(() -> {
+                    BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+                    TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+                    DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 
-                player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
+                    player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
 
-                playerView.setPlayer(player);
+                    playerView.setPlayer(player);
 
-                if (getContext() != null) {
-                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), getContext().getPackageName()));
-                    MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(mStep.getVideoURL()));
-                    player.prepare(videoSource);
+                    if (getContext() != null) {
+                        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), getContext().getPackageName()));
+                        MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(mStep.getVideoURL()));
+                        player.prepare(videoSource);
 
-                    if (savedInstanceState != null) {
-                        player.seekTo(savedInstanceState.getLong(PLAYER_POSITION));
+                        if (savedInstanceState != null) {
+                            player.seekTo(savedInstanceState.getLong(PLAYER_POSITION, 0));
+                        }
+
+                        new Handler(Looper.getMainLooper()).post(() -> playerView.setVisibility(View.VISIBLE));
                     }
-
-                    new Handler(Looper.getMainLooper()).post(() -> playerView.setVisibility(View.VISIBLE));
-                }
-            });
+                });
+            }
         }
     }
 
