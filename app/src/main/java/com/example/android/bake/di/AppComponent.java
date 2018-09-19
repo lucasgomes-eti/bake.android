@@ -1,6 +1,7 @@
 package com.example.android.bake.di;
 
 import com.example.android.bake.App;
+import com.example.android.bake.ui.IngredientsWidgetConfigActivity;
 import com.example.android.bake.ui.RecipesActivity;
 import com.example.android.bake.viewmodel.RecipesViewModel;
 
@@ -16,6 +17,7 @@ public interface AppComponent {
     void inject(App app);
 
     void inject(RecipesActivity activity);
+    void inject(IngredientsWidgetConfigActivity activity);
 
     void inject(RecipesViewModel recipesViewModel);
 }

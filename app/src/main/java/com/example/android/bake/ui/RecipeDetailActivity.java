@@ -1,17 +1,27 @@
 package com.example.android.bake.ui;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
+import android.widget.RemoteViews;
 
 import com.example.android.bake.R;
+import com.example.android.bake.model.Ingredient;
 import com.example.android.bake.model.Recipe;
 import com.example.android.bake.model.Step;
+import com.example.android.bake.service.WidgetService;
 
 import java.util.ArrayList;
+
+import static com.example.android.bake.ui.IngredientsAppWidget.INGREDIENTS_BUNDLE_KEY;
+import static com.example.android.bake.ui.IngredientsAppWidget.INGREDIENTS_KEY;
 
 public class RecipeDetailActivity extends AppCompatActivity implements ListItemClickListener {
 

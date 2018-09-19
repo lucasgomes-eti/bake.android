@@ -9,7 +9,7 @@ public class Ingredient implements Parcelable {
     private String measure;
     private String ingredient;
 
-    protected Ingredient(Parcel in) {
+    private Ingredient(Parcel in) {
         quantity = in.readString();
         measure = in.readString();
         ingredient = in.readString();

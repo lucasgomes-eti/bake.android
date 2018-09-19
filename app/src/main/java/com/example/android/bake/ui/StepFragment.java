@@ -1,5 +1,6 @@
 package com.example.android.bake.ui;
 
+import android.appwidget.AppWidgetManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
@@ -91,6 +92,8 @@ public class StepFragment extends Fragment {
                 params.topMargin = 0;
                 playerView.setLayoutParams(params);
                 hideSystemUI();
+
+
             }
         }
     }
