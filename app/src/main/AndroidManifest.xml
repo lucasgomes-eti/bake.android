@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.android.bake">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,10 +21,12 @@
         </activity>
         <activity
             android:name=".ui.RecipeDetailActivity"
-            android:parentActivityName=".ui.RecipeDetailActivity" />
+            android:parentActivityName=".ui.RecipeDetailActivity"
+            tools:targetApi="jelly_bean" />
         <activity
             android:name=".ui.StepDetailActivity"
-            android:parentActivityName=".ui.RecipeDetailActivity" />
+            android:parentActivityName=".ui.RecipeDetailActivity"
+            tools:targetApi="jelly_bean" />
 
         <receiver android:name=".ui.IngredientsAppWidget">
             <intent-filter>

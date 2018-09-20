@@ -15,7 +15,7 @@ import com.example.android.bake.model.Step;
 
 import java.util.ArrayList;
 
-public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     public final ArrayList<Step> mSteps;
@@ -89,9 +89,9 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private class StepsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        CardView cardView;
-        TextView stepShortDescription;
-        TextView stepNumber;
+        final CardView cardView;
+        final TextView stepShortDescription;
+        final TextView stepNumber;
 
         StepsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,7 +109,7 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private class IngredientsViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textIngredients;
+        final TextView textIngredients;
 
         IngredientsViewHolder(@NonNull View itemView) {
             super(itemView);

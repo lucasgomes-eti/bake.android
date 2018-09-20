@@ -7,7 +7,7 @@ import com.example.android.bake.di.AppModule;
 import com.example.android.bake.di.DaggerAppComponent;
 
 public class App extends Application {
-    public AppComponent component =
+    public final AppComponent component =
             DaggerAppComponent.builder()
                     .appModule(new AppModule(this))
                     .build();

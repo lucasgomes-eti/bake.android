@@ -1,7 +1,6 @@
 package com.example.android.bake.helper;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 
 public class AndroidExtensions {

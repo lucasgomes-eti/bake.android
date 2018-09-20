@@ -14,7 +14,7 @@ import com.example.android.bake.model.Recipe;
 
 import java.util.ArrayList;
 
-public class RecipesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class RecipesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public final ArrayList<Recipe> mRecipes;
     final private ListItemClickListener mOnClickListener;

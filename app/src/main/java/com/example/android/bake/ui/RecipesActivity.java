@@ -19,29 +19,23 @@ import java.util.ArrayList;
 
 public class RecipesActivity extends AppCompatActivity implements ListItemClickListener {
 
-    private RecipesViewModel viewModel;
-    private RecipesAdapter recipesAdapter = new RecipesAdapter(new ArrayList<>(), this);
-    private RecyclerView.LayoutManager layoutManager;
+    private final RecipesAdapter recipesAdapter = new RecipesAdapter(new ArrayList<>(), this);
 
-    public static String RECIPE_KEY = "recipe";
+    public static final String RECIPE_KEY = "recipe";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes);
         ((App) getApplication()).component.inject(this);
-        viewModel = ViewModelProviders.of(this).get(RecipesViewModel.class);
+        RecipesViewModel viewModel = ViewModelProviders.of(this).get(RecipesViewModel.class);
 
+        RecyclerView.LayoutManager layoutManager;
         if (AndroidExtensions.getIsTablet(getApplicationContext())) {
             layoutManager = new GridLayoutManager(this, AndroidExtensions.responsiveNumberOfColumns(getApplicationContext()));
         } else {
             layoutManager = new LinearLayoutManager(this);
         }
-
-        Log.d("nutella_pie", String.valueOf(R.drawable.nutella_pie));
-        Log.d("brownies", String.valueOf(R.drawable.brownies));
-        Log.d("yellow_cake", String.valueOf(R.drawable.yellow_cake));
-        Log.d("cheesecake", String.valueOf(R.drawable.cheesecake));
 
 
         RecyclerView recyclerView = findViewById(R.id.rv_recipes);

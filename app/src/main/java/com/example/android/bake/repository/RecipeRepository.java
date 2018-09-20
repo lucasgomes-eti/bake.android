@@ -28,6 +28,7 @@ public class RecipeRepository {
             InputStream inputStream = app.getApplicationContext().getAssets().open("recipes.json");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
+            //noinspection ResultOfMethodCallIgnored
             inputStream.read(buffer);
             inputStream.close();
             recipesJson = new String(buffer, "UTF-8");

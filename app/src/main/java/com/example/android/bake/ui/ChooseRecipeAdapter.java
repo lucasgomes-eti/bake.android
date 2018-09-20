@@ -12,7 +12,7 @@ import com.example.android.bake.model.Recipe;
 
 import java.util.ArrayList;
 
-public class ChooseRecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class ChooseRecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public final ArrayList<Recipe> mRecipes;
     final private ListItemClickListener mOnClickListener;
@@ -47,7 +47,7 @@ public class ChooseRecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private class ChooseRecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView textItem;
+        final TextView textItem;
 
         ChooseRecipeViewHolder(@NonNull View itemView) {
             super(itemView);

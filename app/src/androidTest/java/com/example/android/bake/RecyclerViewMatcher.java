@@ -9,7 +9,7 @@ import org.hamcrest.TypeSafeMatcher;
 
 public class RecyclerViewMatcher {
 
-    final int recyclerViewId;
+    private final int recyclerViewId;
 
     private RecyclerViewMatcher(int recyclerViewId) {
         this.recyclerViewId = recyclerViewId;
@@ -23,7 +23,7 @@ public class RecyclerViewMatcher {
         return atPositionOnView(position, -1);
     }
 
-    TypeSafeMatcher<View> atPositionOnView(int position, int targetViewId) {
+    private TypeSafeMatcher<View> atPositionOnView(int position, int targetViewId) {
         return new TypeSafeMatcher<View>() {
 
             Resources resources;

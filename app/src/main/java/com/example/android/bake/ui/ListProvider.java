@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
 
-    private ArrayList<Ingredient> ingredients;
-    private Context context;
+    private final ArrayList<Ingredient> ingredients;
+    private final Context context;
 
     public ListProvider(Context context, Intent intent) {
         this.context = context;

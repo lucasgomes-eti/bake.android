@@ -3,7 +3,6 @@ package com.example.android.bake.ui;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,18 +19,16 @@ import java.util.ArrayList;
 
 public class IngredientsWidgetConfigActivity extends AppCompatActivity implements ListItemClickListener {
 
-    private RecipesViewModel viewModel;
-    private ChooseRecipeAdapter recipesAdapter = new ChooseRecipeAdapter(new ArrayList<>(), this);
-    private RecyclerView.LayoutManager layoutManager;
+    private final ChooseRecipeAdapter recipesAdapter = new ChooseRecipeAdapter(new ArrayList<>(), this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients_widget_config);
         ((App) getApplication()).component.inject(this);
-        viewModel = ViewModelProviders.of(this).get(RecipesViewModel.class);
+        RecipesViewModel viewModel = ViewModelProviders.of(this).get(RecipesViewModel.class);
 
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         RecyclerView recyclerView = findViewById(R.id.rv_recipes);
 

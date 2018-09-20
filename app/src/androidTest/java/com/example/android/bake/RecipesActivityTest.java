@@ -19,16 +19,12 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
 @RunWith(AndroidJUnit4.class)
 public class RecipesActivityTest {
 
+    @SuppressWarnings("unchecked")
     @Rule
-    public IntentsTestRule mActivityTestRule = new IntentsTestRule(RecipesActivity.class, false, false);
+    public final IntentsTestRule mActivityTestRule = new IntentsTestRule(RecipesActivity.class, false, false);
 
     @Test
     public void test_recipe_items() {
@@ -50,6 +46,7 @@ public class RecipesActivityTest {
         onView(RecyclerViewMatcher.withRecyclerView(R.id.rv_recipes).atPosition(0))
                 .perform(click());
 
+        //noinspection ResultOfMethodCallIgnored
         intending(hasComponent(RecipeDetailActivity.class.getName()));
     }
 }

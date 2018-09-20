@@ -1,9 +1,7 @@
 package com.example.android.bake;
 
-import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
-import android.support.test.espresso.intent.OngoingStubbing;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -24,8 +22,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class IngredientsWidgetConfigActivityTest {
 
+    @SuppressWarnings("unchecked")
     @Rule
-    public IntentsTestRule mActivityTestRule = new IntentsTestRule(IngredientsWidgetConfigActivity.class, false, false);
+    public final IntentsTestRule mActivityTestRule = new IntentsTestRule(IngredientsWidgetConfigActivity.class, false, false);
 
     @Test
     public void test_recipe_items() {
@@ -44,6 +43,7 @@ public class IngredientsWidgetConfigActivityTest {
         onView(RecyclerViewMatcher.withRecyclerView(R.id.rv_recipes).atPosition(0))
                 .perform(click());
 
+        //noinspection ResultOfMethodCallIgnored
         intending(hasExtraWithKey(AppWidgetManager.EXTRA_APPWIDGET_ID));
     }
 

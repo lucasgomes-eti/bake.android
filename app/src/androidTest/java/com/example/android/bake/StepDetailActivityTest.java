@@ -24,14 +24,15 @@ import static org.hamcrest.Matchers.not;
 @RunWith(AndroidJUnit4.class)
 public class StepDetailActivityTest {
 
+    @SuppressWarnings("unchecked")
     @Rule
-    public IntentsTestRule mActivityTestRule = new IntentsTestRule(StepDetailActivity.class, false, false);
+    public final IntentsTestRule mActivityTestRule = new IntentsTestRule(StepDetailActivity.class, false, false);
 
-    private static Step STEP_TEST = new Step(0, "Recipe Introduction", "Recipe Introduction",
+    private static final Step STEP_TEST = new Step(0, "Recipe Introduction", "Recipe Introduction",
             "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffdc33_-intro-brownies/-intro-brownies.mp4",
             "", false);
 
-    private static Step STEP_TEST_NO_VIDEO = new Step(0, "Recipe Introduction", "Recipe Introduction",
+    private static final Step STEP_TEST_NO_VIDEO = new Step(0, "Recipe Introduction", "Recipe Introduction",
             "",
             "", false);
 

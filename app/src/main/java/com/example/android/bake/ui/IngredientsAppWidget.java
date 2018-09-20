@@ -19,8 +19,8 @@ import java.util.ArrayList;
  */
 public class IngredientsAppWidget extends AppWidgetProvider {
 
-    public static String INGREDIENTS_KEY = "ingredients";
-    public static String INGREDIENTS_BUNDLE_KEY = "ingredientsBundle";
+    public static final String INGREDIENTS_KEY = "ingredients";
+    public static final String INGREDIENTS_BUNDLE_KEY = "ingredientsBundle";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId, ArrayList<Ingredient> ingredients, String recipeName) {
@@ -46,10 +46,5 @@ public class IngredientsAppWidget extends AppWidgetProvider {
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
-
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 }

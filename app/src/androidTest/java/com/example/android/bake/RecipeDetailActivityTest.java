@@ -28,10 +28,11 @@ import static org.hamcrest.Matchers.not;
 @RunWith(AndroidJUnit4.class)
 public class RecipeDetailActivityTest {
 
+    @SuppressWarnings("unchecked")
     @Rule
-    public IntentsTestRule mActivityTestRule = new IntentsTestRule(RecipeDetailActivity.class, false, false);
+    public final IntentsTestRule mActivityTestRule = new IntentsTestRule(RecipeDetailActivity.class, false, false);
 
-    private static Recipe RECIPE_TEST = new Recipe(2, "Brownies", new ArrayList<Ingredient>() {{
+    private static final Recipe RECIPE_TEST = new Recipe(2, "Brownies", new ArrayList<Ingredient>() {{
         add(new Ingredient("350", "G", "Bittersweet chocolate (60-70% cacao)"));
     }}, new ArrayList<Step>() {{
         add(new Step(0, "Recipe Introduction", "Recipe Introduction",
@@ -39,7 +40,7 @@ public class RecipeDetailActivityTest {
                 "", false));
     }}, 8, 2131099733);
 
-    private static Recipe RECIPE_TEST_NO_VIDEO = new Recipe(2, "Brownies", new ArrayList<Ingredient>() {{
+    private static final Recipe RECIPE_TEST_NO_VIDEO = new Recipe(2, "Brownies", new ArrayList<Ingredient>() {{
         add(new Ingredient("350", "G", "Bittersweet chocolate (60-70% cacao)"));
     }}, new ArrayList<Step>() {{
         add(new Step(0, "Recipe Introduction", "Recipe Introduction",

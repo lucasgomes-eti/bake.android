@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="228dp"
             android:scaleType="centerCrop"
+            android:contentDescription="@string/recipe_image"
             app:srcCompat="@drawable/brownies" />
 
         <TextView
