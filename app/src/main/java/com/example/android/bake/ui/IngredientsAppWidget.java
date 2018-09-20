@@ -37,6 +37,7 @@ public class IngredientsAppWidget extends AppWidgetProvider {
         bundle.putParcelableArrayList(INGREDIENTS_KEY, ingredients);
 
         intent.putExtra(INGREDIENTS_BUNDLE_KEY, bundle);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
 
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));

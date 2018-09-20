@@ -47,17 +47,15 @@ public class IngredientsWidgetConfigActivity extends AppCompatActivity implement
         Recipe recipe = recipesAdapter.mRecipes.get(itemIndex);
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getApplication(), IngredientsAppWidget.class));
 
-        for (int appWidgetId : appWidgetIds) {
-            IngredientsAppWidget.updateAppWidget(getApplicationContext(), appWidgetManager, appWidgetId, (ArrayList<Ingredient>) recipe.getIngredients(), recipe.getName());
-            Intent resultValue = new Intent();
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        int appWidgetId = getIntent().getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 
-            setResult(Activity.RESULT_OK, resultValue);
+        IngredientsAppWidget.updateAppWidget(getApplicationContext(), appWidgetManager, appWidgetId, (ArrayList<Ingredient>) recipe.getIngredients(), recipe.getName());
+        Intent resultValue = new Intent();
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
-            finish();
-        }
+        setResult(Activity.RESULT_OK, resultValue);
 
+        finish();
     }
 }
