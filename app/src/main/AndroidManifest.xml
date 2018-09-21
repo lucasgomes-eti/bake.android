@@ -22,6 +22,7 @@
         <activity
             android:name=".ui.RecipeDetailActivity"
             android:parentActivityName=".ui.RecipeDetailActivity"
+            android:launchMode="singleTop"
             tools:targetApi="jelly_bean" />
         <activity
             android:name=".ui.StepDetailActivity"
