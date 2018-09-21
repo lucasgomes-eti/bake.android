@@ -35,8 +35,10 @@ public class IngredientsWidgetConfigActivity extends AppCompatActivity implement
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recipesAdapter);
 
-        recipesAdapter.mRecipes.addAll(viewModel.loadRecipes());
-        recipesAdapter.notifyDataSetChanged();
+        viewModel.getRecipes().observe(this, recipes -> {
+            recipesAdapter.mRecipes.addAll(recipes);
+            recipesAdapter.notifyDataSetChanged();
+        });
     }
 
     @Override

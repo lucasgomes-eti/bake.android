@@ -20,7 +20,7 @@
             android:layout_height="228dp"
             android:scaleType="centerCrop"
             android:contentDescription="@string/recipe_image"
-            app:srcCompat="@drawable/brownies" />
+            app:srcCompat="@drawable/recipe_placeholder" />
 
         <TextView
             android:id="@+id/tv_recipe"

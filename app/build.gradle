@@ -28,6 +28,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$rootProject.android_support"
+    implementation "com.android.support:exifinterface:$rootProject.android_support"
     implementation "com.android.support:recyclerview-v7:$rootProject.android_support"
     implementation "com.android.support:cardview-v7:$rootProject.android_support"
     implementation "com.android.support:support-v4:$rootProject.android_support"
@@ -75,4 +76,7 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
+
+    //Picasso
+    implementation "com.squareup.picasso:picasso:$rootProject.picasso"
 }

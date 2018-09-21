@@ -1,4 +1,5 @@
-[
+{
+  "recipes": [
   {
     "id": 1,
     "name": "Nutella Pie",
@@ -101,7 +102,7 @@
       }
     ],
     "servings": 8,
-    "imageResId": 2131099778
+    "imageUrl": "https://i.imgur.com/TN9c6tb.jpg"
   },
   {
     "id": 2,
@@ -231,7 +232,7 @@
       }
     ],
     "servings": 8,
-    "imageResId": 2131099733
+    "imageUrl": "https://i.imgur.com/7i92vfC.png"
   },
   {
     "id": 3,
@@ -382,7 +383,7 @@
       }
     ],
     "servings": 8,
-    "imageResId": 2131099781
+    "imageUrl": "https://i.imgur.com/V6nccsp.png"
   },
   {
     "id": 4,
@@ -528,6 +529,7 @@
       }
     ],
     "servings": 8,
-    "imageResId": 2131099734
+    "imageUrl": "https://i.imgur.com/xH3XdHk.png"
   }
 ]
+}

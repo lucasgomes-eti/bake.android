@@ -13,3 +13,7 @@
 \.idea/caches/
 
 app/build/
+
+node_modules/
+
+package-lock\.json

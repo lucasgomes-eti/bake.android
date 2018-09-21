@@ -1,7 +1,6 @@
 package com.example.android.bake.ui;
 
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.android.bake.R;
 import com.example.android.bake.model.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -35,9 +35,10 @@ class RecipesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         Recipe recipe = mRecipes.get(viewHolder.getAdapterPosition());
 
-        ((RecipesViewHolder) viewHolder).recipeImage
-                .setImageDrawable(ContextCompat
-                        .getDrawable(viewHolder.itemView.getContext(), recipe.getImageResId()));
+        Picasso.get()
+                .load(recipe.getImageUrl())
+                .placeholder(R.drawable.recipe_placeholder)
+                .into(((RecipesViewHolder) viewHolder).recipeImage);
 
         ((RecipesViewHolder) viewHolder).recipeName.setText(recipe.getName());
     }

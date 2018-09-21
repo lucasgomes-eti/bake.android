@@ -1,8 +1,10 @@
 package com.example.android.bake.ui;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import com.example.android.bake.model.Recipe;
 import com.example.android.bake.viewmodel.RecipesViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecipesActivity extends AppCompatActivity implements ListItemClickListener {
 
@@ -43,8 +46,10 @@ public class RecipesActivity extends AppCompatActivity implements ListItemClickL
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recipesAdapter);
 
-        recipesAdapter.mRecipes.addAll(viewModel.loadRecipes());
-        recipesAdapter.notifyDataSetChanged();
+        viewModel.getRecipes().observe(this, recipes -> {
+            recipesAdapter.mRecipes.addAll(recipes);
+            recipesAdapter.notifyDataSetChanged();
+        });
     }
 
     @Override

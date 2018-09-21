@@ -1,7 +1,11 @@
 package com.example.android.bake.repository;
 
+import android.support.annotation.WorkerThread;
+
 import com.example.android.bake.App;
+import com.example.android.bake.AppExecutors;
 import com.example.android.bake.model.Recipe;
+import com.example.android.bake.remote.RecipesService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -12,36 +16,33 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import retrofit2.Response;
+
 public class RecipeRepository {
     private final App app;
+    private final RecipesService recipesService;
 
     @Inject
-    public RecipeRepository(App app) {
+    public RecipeRepository(App app, RecipesService recipesService) {
+
         this.app = app;
+        this.recipesService = recipesService;
     }
 
+    @WorkerThread
     public List<Recipe> loadRecipes() {
 
-        String recipesJson = "";
+        List<Recipe> result = new ArrayList<>();
 
         try {
-            InputStream inputStream = app.getApplicationContext().getAssets().open("recipes.json");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            //noinspection ResultOfMethodCallIgnored
-            inputStream.read(buffer);
-            inputStream.close();
-            recipesJson = new String(buffer, "UTF-8");
+            Response<List<Recipe>> response = recipesService.getRecipes().execute();
+
+            if (response.isSuccessful() &&  response.body() != null) {
+                result.addAll(response.body());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        List<Recipe> recipes = new Gson().fromJson(recipesJson, new TypeToken<List<Recipe>>() {}.getType());
-
-        if (recipes != null) {
-            return recipes;
-        } else {
-            return new ArrayList<>();
-        }
+        return result;
     }
 }
