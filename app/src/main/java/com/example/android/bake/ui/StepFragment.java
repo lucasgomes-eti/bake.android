@@ -36,11 +36,14 @@ public class StepFragment extends Fragment {
 
     private static final String ARG_STEP = "argStep";
     private static final String PLAYER_POSITION = "playerPosition";
+    private static final String PLAYER_PLAY_WHEN_READY = "playerPlayWhenReady";
 
     private Step mStep;
 
     private SimpleExoPlayer player;
     private PlayerView playerView;
+
+    private Bundle savedInstanceState;
 
 
     public StepFragment() {}
@@ -77,8 +80,23 @@ public class StepFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            initPlayer();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        changePlayerViewToFullScreenMode();
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+            initPlayer();
+        }
+    }
+
+    private void changePlayerViewToFullScreenMode(){
         if (getActivity() != null) {
             if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !AndroidExtensions.getIsTablet(getActivity())) {
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) playerView.getLayoutParams();
@@ -90,8 +108,6 @@ public class StepFragment extends Fragment {
                 params.topMargin = 0;
                 playerView.setLayoutParams(params);
                 hideSystemUI();
-
-
             }
         }
     }
@@ -116,12 +132,11 @@ public class StepFragment extends Fragment {
         super.onSaveInstanceState(outState);
         if (player != null) {
             outState.putLong(PLAYER_POSITION, player.getCurrentPosition());
+            outState.putBoolean(PLAYER_PLAY_WHEN_READY, player.getPlayWhenReady());
         }
     }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
+    private void initPlayer() {
         if (getContext() != null) {
             if (!mStep.getVideoURL().equals("")) {
                 new Handler().post(() -> {
@@ -140,6 +155,7 @@ public class StepFragment extends Fragment {
 
                         if (savedInstanceState != null) {
                             player.seekTo(savedInstanceState.getLong(PLAYER_POSITION, 0));
+                            player.setPlayWhenReady(savedInstanceState.getBoolean(PLAYER_PLAY_WHEN_READY, false));
                         }
 
                         new Handler(Looper.getMainLooper()).post(() -> playerView.setVisibility(View.VISIBLE));
@@ -150,10 +166,32 @@ public class StepFragment extends Fragment {
     }
 
     @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.savedInstanceState = savedInstanceState;
+        }
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
-        if (player != null) {
-            player.release();
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+            if (player != null) {
+                player.release();
+                player = null;
+            }
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            if (player != null) {
+                player.release();
+                player = null;
+            }
         }
     }
 }
